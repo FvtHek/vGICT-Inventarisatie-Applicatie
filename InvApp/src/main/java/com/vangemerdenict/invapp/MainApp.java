@@ -1,5 +1,6 @@
 package com.vangemerdenict.invapp;
 
+import db.MyJDBC;
 import java.io.IOException;
 import javafx.application.Application;
 import static javafx.application.Application.launch;
@@ -16,9 +17,13 @@ public class MainApp extends Application {
     
     @FXML
     private AnchorPane MainPane;
+    
+    public static MyJDBC db;
 
     @Override
     public void start(Stage stage) throws Exception {
+        initMyApp();
+        
         Parent root = FXMLLoader.load(getClass().getResource("/fxml/MainMenu.fxml"));
         
         Scene scene = new Scene(root);
@@ -27,6 +32,13 @@ public class MainApp extends Application {
         stage.setTitle("InvApp");
         stage.setScene(scene);
         stage.show();
+    }
+    
+     private void initMyApp()
+    {
+        System.out.println("INIT DATABASE");
+        
+        db = new MyJDBC();
     }
     
     public static void main(String[] args) {
