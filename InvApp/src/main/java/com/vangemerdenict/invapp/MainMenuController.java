@@ -9,7 +9,6 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 
 public class MainMenuController implements Initializable {
@@ -60,7 +59,6 @@ public class MainMenuController implements Initializable {
         catch (Exception ex)
         {
             ex.printStackTrace();
-            //todo: go to dashboard
         }
     }
     
