@@ -5,6 +5,7 @@
  */
 package com.vangemerdenict.invapp;
 
+import Util.InventoryList;
 import java.net.URL;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -35,7 +36,17 @@ public class InlezenMainController implements Initializable {
     @FXML
     private TableColumn<InventoryList, String> col_id;
     @FXML
-    private TableColumn<InventoryList, String> col_datatest;
+    private TableColumn<InventoryList, String> col_barcode;
+    @FXML
+    private TableColumn<InventoryList, String> col_type;
+    @FXML
+    private TableColumn<InventoryList, String> col_merk;
+    @FXML
+    private TableColumn<InventoryList, String> col_ingekocht;
+    @FXML
+    private TableColumn<InventoryList, String> col_grVerloopt;
+    @FXML
+    private TableColumn<InventoryList, String> col_specs;
     @FXML
     private TableColumn<InventoryList, String> col_opmerking;
 
@@ -51,13 +62,13 @@ public class InlezenMainController implements Initializable {
     }
 
     private void loadDataFromDatabase() {
-        String query = String.format("select * from testtable");
+        String query = String.format("select * from product where verkocht = '0';");
 
         try {
             ResultSet rs = MainApp.db.executeResultSetQuery(query);
 
             while (rs.next()) {
-                data.add(new InventoryList("" + rs.getInt("id"), rs.getString("datatest"), rs.getString("opmerking")));
+                data.add(new InventoryList("" + rs.getInt("id"), rs.getString("barcode"), rs.getString("type product"), rs.getString("merk"), rs.getString("ingekocht"), rs.getString("garantie verloopt op"), rs.getString("specs"), rs.getString("opmerking")));
             }
         } catch (SQLException ex) {
             Logger.getLogger(InlezenMainController.class.getName()).log(Level.SEVERE, null, ex);
@@ -79,10 +90,15 @@ public class InlezenMainController implements Initializable {
 
         });
     }
-    
+
     private void setCellTable() {
         col_id.setCellValueFactory(new PropertyValueFactory<>("id"));
-        col_datatest.setCellValueFactory(new PropertyValueFactory<>("datatest"));
+        col_barcode.setCellValueFactory(new PropertyValueFactory<>("barcode"));
+        col_type.setCellValueFactory(new PropertyValueFactory<>("type"));
+        col_merk.setCellValueFactory(new PropertyValueFactory<>("merk"));
+        col_ingekocht.setCellValueFactory(new PropertyValueFactory<>("ingekocht"));
+        col_grVerloopt.setCellValueFactory(new PropertyValueFactory<>("grVerloopt"));
+        col_specs.setCellValueFactory(new PropertyValueFactory<>("specs"));
         col_opmerking.setCellValueFactory(new PropertyValueFactory<>("opmerking"));
-    } 
+    }
 }
