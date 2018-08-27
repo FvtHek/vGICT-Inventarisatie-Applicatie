@@ -28,8 +28,8 @@ public class MainApp extends Application {
 
     private void initMyApp() {
         db = new MyJDBC();
-        System.out.println("INIT DATABASE");
 
+        System.out.println("INITIALIZING DATABASE");
     }
 
     public static void main(String[] args) {

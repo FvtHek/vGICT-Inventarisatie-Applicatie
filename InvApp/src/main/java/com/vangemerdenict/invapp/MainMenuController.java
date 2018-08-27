@@ -12,72 +12,60 @@ import javafx.scene.control.Button;
 import javafx.scene.layout.AnchorPane;
 
 public class MainMenuController implements Initializable {
-    
+
     @FXML
     private Button btn_inlezen;
     private Button btn_uitboeken;
     private Button btn_archief;
-    
+
     @FXML
     private AnchorPane MainPane;
-    
+
     @FXML
     private void handleButtonAction(ActionEvent event) {
     }
-    
-    
+
     @FXML
-    private void menuButtonInlezenClick(ActionEvent event)
-    {
+    private void menuButtonInlezenClick(ActionEvent event) {
         loadPage("InlezenMain.fxml");
     }
 
-        @FXML
-    private void menuButtonUitboekenClick(ActionEvent event)
-    {
-        loadPage("Dashboard.fxml");
+    @FXML
+    private void menuButtonUitboekenClick(ActionEvent event) {
+        loadPage("UitboekenMain.fxml");
     }
 
-        @FXML
-    private void menuButtonArchiefClick(ActionEvent event)
-    {
-        loadPage("Dashboard.fxml");
+    @FXML
+    private void menuButtonArchiefClick(ActionEvent event) {
+        loadPage("ArchiefMain.fxml");
     }
-    
-    private void loadPage(String name)
-    {
+
+    private void loadPage(String name) {
         String fxmlFileLocation = String.format("/fxml/%s", name);
 
-        try
-        {
+        try {
             Parent pane = loadFXMLFile(fxmlFileLocation);
 
             MainPane.getChildren().clear();
 
             MainPane.getChildren().add(pane);
-        }
-        catch (Exception ex)
-        {
+        } catch (Exception ex) {
             ex.printStackTrace();
         }
     }
-    
-    public Parent loadFXMLFile(String fxmlFileLocation)
-    {
-        try
-        {
+
+    public Parent loadFXMLFile(String fxmlFileLocation) {
+        try {
             return FXMLLoader.load(MainApp.class.getResource(fxmlFileLocation));
-        }
-        catch (IOException ex)
-        {
+        } catch (IOException ex) {
             ex.printStackTrace();
             return null;
         }
 
     }
-    
+
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
-    }    
+    }
 }
