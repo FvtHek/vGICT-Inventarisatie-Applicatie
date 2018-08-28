@@ -16,29 +16,34 @@ public class InventoryList {
     private String type;
     private String merk;
     private String ingekocht;
+    private double inkoopprijs;
     private String verkocht;
+    private String verkoopprijs;
     private String grVerloopt;
     private String specs;
     private String opmerking;
 
-    public InventoryList(String id, String barcode, String type, String merk, String ingekocht, String verkocht, String grVerloopt, String specs, String opmerking) {
+    public InventoryList(String id, String barcode, String type, String merk, String ingekocht, double inkoopprijs, String verkocht, String verkoopprijs, String grVerloopt, String specs, String opmerking) {
         this.id = id;
         this.barcode = barcode;
         this.type = type;
         this.merk = merk;
         this.ingekocht = ingekocht;
+        this.inkoopprijs = inkoopprijs;
         this.verkocht = verkocht;
+        this.verkoopprijs = verkoopprijs;
         this.grVerloopt = grVerloopt;
         this.specs = specs;
         this.opmerking = opmerking;
     }
     
-    public InventoryList(String id, String barcode, String type, String merk, String ingekocht, String grVerloopt, String specs, String opmerking) {
+    public InventoryList(String id, String barcode, String type, String merk, String ingekocht, double inkoopprijs, String grVerloopt, String specs, String opmerking) {
         this.id = id;
         this.barcode = barcode;
         this.type = type;
         this.merk = merk;
         this.ingekocht = ingekocht;
+        this.inkoopprijs = inkoopprijs;
         this.grVerloopt = grVerloopt;
         this.specs = specs;
         this.opmerking = opmerking;
@@ -168,6 +173,34 @@ public class InventoryList {
      */
     public void setGrVerloopt(String grVerloopt) {
         this.grVerloopt = grVerloopt;
+    }
+
+    /**
+     * @return the inkoopprijs
+     */
+    public double getInkoopprijs() {
+        return inkoopprijs;
+    }
+
+    /**
+     * @param inkoopprijs the inkoopprijs to set
+     */
+    public void setInkoopprijs(double inkoopprijs) {
+        this.inkoopprijs = inkoopprijs;
+    }
+
+    /**
+     * @return the verkoopprijs
+     */
+    public String getVerkoopprijs() {
+        return verkoopprijs;
+    }
+
+    /**
+     * @param verkoopprijs the verkoopprijs to set
+     */
+    public void setVerkoopprijs(String verkoopprijs) {
+        this.verkoopprijs = verkoopprijs;
     }
 
     

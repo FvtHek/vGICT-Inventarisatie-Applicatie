@@ -6,6 +6,7 @@
 package com.vangemerdenict.invapp;
 
 import Util.InventoryList;
+import java.io.IOException;
 import java.net.URL;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -14,9 +15,12 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -44,6 +48,8 @@ public class InlezenMainController implements Initializable {
     @FXML
     private TableColumn<InventoryList, String> col_ingekocht;
     @FXML
+    private TableColumn<InventoryList, String> col_inkoopprijs;
+    @FXML
     private TableColumn<InventoryList, String> col_grVerloopt;
     @FXML
     private TableColumn<InventoryList, String> col_specs;
@@ -52,6 +58,7 @@ public class InlezenMainController implements Initializable {
 
     ObservableList<InventoryList> data = FXCollections.observableArrayList();
 
+    private String inkoopprijs;
     private String selectedItem;
 
     @Override
@@ -68,7 +75,8 @@ public class InlezenMainController implements Initializable {
             ResultSet rs = MainApp.db.executeResultSetQuery(query);
 
             while (rs.next()) {
-                data.add(new InventoryList("" + rs.getInt("id"), rs.getString("barcode"), rs.getString("type product"), rs.getString("merk"), rs.getString("ingekocht"), rs.getString("garantie verloopt op"), rs.getString("specs"), rs.getString("opmerking")));
+                data.add(new InventoryList("" + rs.getInt("id"), rs.getString("barcode"), rs.getString("type product"), rs.getString("merk"), rs.getString("ingekocht"), rs.getDouble("inkoopprijs"), rs.getString("garantie verloopt op"), rs.getString("specs"), rs.getString("opmerking")));
+                System.out.println(rs.getDouble("inkoopprijs"));
             }
         } catch (SQLException ex) {
             Logger.getLogger(InlezenMainController.class.getName()).log(Level.SEVERE, null, ex);
@@ -87,7 +95,6 @@ public class InlezenMainController implements Initializable {
                 selectedItem = il.getId();
                 System.out.println(selectedItem);
             }
-
         });
     }
 
@@ -97,8 +104,29 @@ public class InlezenMainController implements Initializable {
         col_type.setCellValueFactory(new PropertyValueFactory<>("type"));
         col_merk.setCellValueFactory(new PropertyValueFactory<>("merk"));
         col_ingekocht.setCellValueFactory(new PropertyValueFactory<>("ingekocht"));
+        col_inkoopprijs.setCellValueFactory(new PropertyValueFactory<>("inkoopprijs"));
         col_grVerloopt.setCellValueFactory(new PropertyValueFactory<>("grVerloopt"));
         col_specs.setCellValueFactory(new PropertyValueFactory<>("specs"));
         col_opmerking.setCellValueFactory(new PropertyValueFactory<>("opmerking"));
+    }
+    
+    @FXML
+    private void newFormClick(ActionEvent event) {
+        Parent pane = loadFXMLFile("/fxml/InlezenInsert.fxml");
+        System.out.println("ACTION: Loading Form.");
+
+        MainPane.getChildren().clear();
+
+        MainPane.getChildren().add(pane);
+    }
+    
+    public Parent loadFXMLFile(String fxmlFileLocation) {
+        try {
+            return FXMLLoader.load(MainApp.class.getResource(fxmlFileLocation));
+        } catch (IOException ex) {
+            ex.printStackTrace();
+            return null;
+        }
+
     }
 }

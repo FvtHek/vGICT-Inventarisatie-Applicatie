@@ -44,23 +44,25 @@
                <children>
                   <Pane layoutX="486.0" layoutY="184.0" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: white;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                      <children>
-                        <TextField fx:id="field_merk" layoutX="219.0" layoutY="278.0" />
-                        <Label fx:id="lbl_type" layoutX="147.0" layoutY="239.0" text="Type" />
+                        <TextField fx:id="field_merk" layoutX="220.0" layoutY="247.0" />
+                        <Label fx:id="lbl_type" layoutX="153.0" layoutY="208.0" text="Type" />
                         <TextField fx:id="field_barcode" layoutX="217.0" layoutY="143.0" />
                         <Label fx:id="lbl_barcode" layoutX="130.0" layoutY="147.0" prefHeight="17.0" prefWidth="58.0" text="Barcode" />
-                        <ChoiceBox fx:id="field_type" layoutX="218.0" layoutY="236.0" prefWidth="150.0" />
-                        <Button fx:id="btn_addType" layoutX="375.0" layoutY="232.0" minWidth="31.0" mnemonicParsing="false" prefHeight="32.0" prefWidth="31.0" text="+" />
-                        <Label fx:id="lbl_type1" layoutX="147.0" layoutY="282.0" text="Merk" />
-                        <Label fx:id="lbl_type11" layoutX="134.0" layoutY="324.0" text="Ingekocht" />
-                        <Label fx:id="lbl_type111" layoutX="92.0" layoutY="361.0" text="Garantie verloopt op" />
-                        <DatePicker fx:id="field_ingekocht" layoutX="219.0" layoutY="320.0" />
-                        <DatePicker fx:id="field_grVerloopt" layoutX="219.0" layoutY="357.0" />
-                        <Label fx:id="lbl_barcode1" layoutX="511.0" layoutY="147.0" prefHeight="17.0" prefWidth="77.0" text="Specificaties" />
+                        <ChoiceBox fx:id="field_type" layoutX="219.0" layoutY="208.0" prefWidth="150.0" />
+                        <Button fx:id="btn_addType" layoutX="376.0" layoutY="204.0" minWidth="31.0" mnemonicParsing="false" prefHeight="32.0" prefWidth="31.0" text="+" />
+                        <Label fx:id="lbl_type1" layoutX="148.0" layoutY="251.0" text="Merk" />
+                        <Label fx:id="lbl_type11" layoutX="135.0" layoutY="290.0" text="Ingekocht" />
+                        <Label fx:id="lbl_type111" layoutX="79.0" layoutY="370.0" text="Garantie verloopt op" />
+                        <DatePicker fx:id="field_ingekocht" layoutX="220.0" layoutY="286.0" />
+                        <DatePicker fx:id="field_grVerloopt" layoutX="219.0" layoutY="365.0" />
+                        <Label fx:id="lbl_barcode1" layoutX="511.0" layoutY="147.0" prefHeight="21.0" prefWidth="88.0" text="Specificaties" />
                         <Label fx:id="lbl_barcode11" layoutX="511.0" layoutY="270.0" prefHeight="17.0" prefWidth="77.0" text="Opmerking" />
                         <TextField fx:id="field_specs" layoutX="626.0" layoutY="143.0" prefHeight="111.0" prefWidth="207.0" />
                         <TextField fx:id="field_opmerking" layoutX="626.0" layoutY="269.0" prefHeight="111.0" prefWidth="207.0" />
-                        <Button fx:id="btn_cancel" layoutX="807.0" layoutY="431.0" mnemonicParsing="false" text="Annuleren" />
-                        <Button fx:id="btn_save" layoutX="903.0" layoutY="431.0" mnemonicParsing="false" text="Opslaan" />
+                        <Button fx:id="btn_cancel" layoutX="807.0" layoutY="431.0" mnemonicParsing="false" text="Annuleren" onAction="#cancelFormClick" />
+                        <Button fx:id="btn_save" layoutX="903.0" layoutY="431.0" mnemonicParsing="false" text="Opslaan" onAction="#saveFormClick"/>
+                        <TextField fx:id="field_inkoopprijs" layoutX="220.0" layoutY="325.0" />
+                        <Label fx:id="lbl_inkoopprijs" layoutX="148.0" layoutY="329.0" text="Merk" />
                      </children>
                   </Pane>
                </children>
