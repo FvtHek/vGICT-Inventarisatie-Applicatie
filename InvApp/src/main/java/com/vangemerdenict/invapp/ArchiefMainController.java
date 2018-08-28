@@ -44,6 +44,8 @@ public class ArchiefMainController implements Initializable {
     @FXML
     private TableColumn<InventoryList, String> col_ingekocht;
     @FXML
+    private TableColumn<InventoryList, String> col_inkoopprijs;
+    @FXML
     private TableColumn<InventoryList, String> col_grVerloopt;
     @FXML
     private TableColumn<InventoryList, String> col_specs;
@@ -68,7 +70,7 @@ public class ArchiefMainController implements Initializable {
             ResultSet rs = MainApp.db.executeResultSetQuery(query);
 
             while (rs.next()) {
-                data.add(new InventoryList("" + rs.getInt("id"), rs.getString("barcode"), rs.getString("type product"), rs.getString("merk"), rs.getString("ingekocht"), rs.getString("garantie verloopt op"), rs.getString("specs"), rs.getString("opmerking")));
+                data.add(new InventoryList("" + rs.getInt("id"), rs.getString("barcode"), rs.getString("type product"), rs.getString("merk"), rs.getString("ingekocht"), rs.getDouble("inkoopprijs"), rs.getString("garantie verloopt op"), rs.getString("specs"), rs.getString("opmerking")));
             }
         } catch (SQLException ex) {
             Logger.getLogger(ArchiefMainController.class.getName()).log(Level.SEVERE, null, ex);

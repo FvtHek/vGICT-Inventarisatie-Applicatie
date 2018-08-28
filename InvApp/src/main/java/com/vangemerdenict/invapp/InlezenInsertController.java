@@ -16,59 +16,48 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import Util.TypeList;
+import java.io.IOException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.ArrayList;
-
-
+import java.util.Date;
+import javafx.event.ActionEvent;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 
 /**
  *
  * @author Frans
  */
-public class InlezenInsertController implements Initializable{
+public class InlezenInsertController implements Initializable {
+
     @FXML
     private AnchorPane MainPane;
     @FXML
     private TextField field_merk;
     @FXML
-    private Label lbl_type;
-    @FXML
     private TextField field_barcode;
-    @FXML
-    private Label lbl_barcode;
     @FXML
     private ChoiceBox<String> field_type;
     @FXML
     private Button btn_addType;
     @FXML
-    private Label lbl_type1;
-    @FXML
-    private Label lbl_type11;
-    @FXML
-    private Label lbl_type111;
-    @FXML
     private DatePicker field_ingekocht;
     @FXML
+    private TextField field_inkoopprijs;
+    @FXML
     private DatePicker field_grVerloopt;
-    @FXML
-    private Label lbl_barcode1;
-    @FXML
-    private Label lbl_barcode11;
     @FXML
     private TextField field_specs;
     @FXML
     private TextField field_opmerking;
-    @FXML
-    private Button btn_cancel;
-    @FXML
-    private Button btn_save;
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         fillTypeList(field_type);
     }
-    
+
     public ArrayList<String> typeList() {
         String query = String.format("select type from mydb.type;");
 
@@ -92,14 +81,71 @@ public class InlezenInsertController implements Initializable{
 
         return null;
     }
-    
+
     public void fillTypeList(ChoiceBox field) {
         ArrayList<String> typeList = typeList();
-        
+
         for (int i = 0; i < typeList.size(); i++) {
             field.getItems().addAll(typeList.get(i));
         }
     }
-    
-    
+
+    @FXML
+    private void saveFormClick(ActionEvent event) {
+
+        String barcode = field_barcode.getText().toString();
+        String merk = field_merk.getText().toString();
+        String type = field_type.getSelectionModel().getSelectedItem().toString();
+        LocalDate ingekocht = field_ingekocht.getValue();
+        String inkoopprijs = field_inkoopprijs.getText();
+        LocalDate grVerloopt = field_grVerloopt.getValue();
+        String specs = field_specs.getText();
+
+        int verkocht = 0;
+
+        String opmerking;
+        if (field_opmerking.getText() != null) {
+            opmerking = field_opmerking.getText();
+        } else {
+            opmerking = null;
+        }
+
+        System.out.println("ACTION: Saving New Item");
+
+        String query = String.format("INSERT INTO `mydb`.`product`(`barcode`,`type product`,`merk`,`ingekocht`,`inkoopprijs`,`garantie verloopt op`,`specs`,`verkocht`,`opmerking`)VALUES "
+                + "('%s','%s','%s','%s',%s,'%s','%s',%d,'%s');", barcode, type, merk, ingekocht, inkoopprijs, grVerloopt, specs, verkocht, opmerking);
+
+        System.out.println(query);
+
+        MainApp.db.executeUpdateQuery(query);
+
+        System.out.println("Form Saved");
+
+        Parent pane = loadFXMLFile("/fxml/InlezenMain.fxml");
+
+        MainPane.getChildren().clear();
+
+        MainPane.getChildren().add(pane);
+    }
+
+    @FXML
+    private void cancelFormClick(ActionEvent event) {
+        Parent pane = loadFXMLFile("/fxml/InlezenMain.fxml");
+        System.out.println("ACTION: Cancel New Item.");
+
+        MainPane.getChildren().clear();
+
+        MainPane.getChildren().add(pane);
+    }
+
+    public Parent loadFXMLFile(String fxmlFileLocation) {
+        try {
+            return FXMLLoader.load(MainApp.class.getResource(fxmlFileLocation));
+        } catch (IOException ex) {
+            ex.printStackTrace();
+            return null;
+        }
+
+    }
+
 }
