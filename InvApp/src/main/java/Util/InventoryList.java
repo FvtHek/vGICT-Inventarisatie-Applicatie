@@ -12,38 +12,46 @@ package Util;
 public class InventoryList {
 
     private String id;
+    private String naam;
     private String barcode;
     private String type;
     private String merk;
     private String ingekocht;
-    private double inkoopprijs;
+    private double inkoopprijsDouble;
+    private String inkoopprijs;
     private String verkocht;
+    private String verkoopDatum;
+    private double verkoopprijsDouble;
     private String verkoopprijs;
     private String grVerloopt;
     private String specs;
     private String opmerking;
+    private String klant;
 
-    public InventoryList(String id, String barcode, String type, String merk, String ingekocht, double inkoopprijs, String verkocht, String verkoopprijs, String grVerloopt, String specs, String opmerking) {
+    public InventoryList(String id, String naam, String barcode, String type, String merk, String ingekocht, double inkoopprijs, String verkoopDatum, double verkoopprijs, String grVerloopt, String specs, String opmerking, String klant) {
         this.id = id;
+        this.naam = naam;
         this.barcode = barcode;
         this.type = type;
         this.merk = merk;
         this.ingekocht = ingekocht;
-        this.inkoopprijs = inkoopprijs;
-        this.verkocht = verkocht;
-        this.verkoopprijs = verkoopprijs;
+        this.inkoopprijsDouble = inkoopprijs;
+        this.verkoopDatum = verkoopDatum;
+        this.verkoopprijsDouble = verkoopprijs;
         this.grVerloopt = grVerloopt;
         this.specs = specs;
         this.opmerking = opmerking;
+        this.klant = klant;
     }
     
-    public InventoryList(String id, String barcode, String type, String merk, String ingekocht, double inkoopprijs, String grVerloopt, String specs, String opmerking) {
+    public InventoryList(String id, String naam, String barcode, String type, String merk, String ingekocht, double inkoopprijs, String grVerloopt, String specs, String opmerking) {
         this.id = id;
+        this.naam = naam;
         this.barcode = barcode;
         this.type = type;
         this.merk = merk;
         this.ingekocht = ingekocht;
-        this.inkoopprijs = inkoopprijs;
+        this.inkoopprijsDouble = inkoopprijs;
         this.grVerloopt = grVerloopt;
         this.specs = specs;
         this.opmerking = opmerking;
@@ -178,14 +186,15 @@ public class InventoryList {
     /**
      * @return the inkoopprijs
      */
-    public double getInkoopprijs() {
+    public String getInkoopprijs() {
+        inkoopprijs = String.format("€" + "%.2f", inkoopprijsDouble);
         return inkoopprijs;
     }
 
     /**
      * @param inkoopprijs the inkoopprijs to set
      */
-    public void setInkoopprijs(double inkoopprijs) {
+    public void setInkoopprijs(String inkoopprijs) {
         this.inkoopprijs = inkoopprijs;
     }
 
@@ -193,6 +202,7 @@ public class InventoryList {
      * @return the verkoopprijs
      */
     public String getVerkoopprijs() {
+        verkoopprijs = String.format("€" + "%.2f", verkoopprijsDouble);
         return verkoopprijs;
     }
 
@@ -202,6 +212,63 @@ public class InventoryList {
     public void setVerkoopprijs(String verkoopprijs) {
         this.verkoopprijs = verkoopprijs;
     }
+
+    /**
+     * @return the naam
+     */
+    public String getNaam() {
+        return naam;
+    }
+
+    /**
+     * @param naam the naam to set
+     */
+    public void setNaam(String naam) {
+        this.naam = naam;
+    }
+
+    /**
+     * @return the verkoopDatum
+     */
+    public String getVerkoopDatum() {
+        return verkoopDatum;
+    }
+
+    /**
+     * @param verkoopDatum the verkoopDatum to set
+     */
+    public void setVerkoopDatum(String verkoopDatum) {
+        this.verkoopDatum = verkoopDatum;
+    }
+
+    /**
+     * @return the klant
+     */
+    public String getKlant() {
+        return klant;
+    }
+
+    /**
+     * @param klant the klant to set
+     */
+    public void setKlant(String klant) {
+        this.klant = klant;
+    }
+
+    /**
+     * @return the inkoopprijsDouble
+     */
+    public double getInkoopprijsDouble() {
+        return inkoopprijsDouble;
+    }
+
+    /**
+     * @return the verkoopprijsDouble
+     */
+    public double getVerkoopprijsDouble() {
+        return verkoopprijsDouble;
+    }
+
 
     
     

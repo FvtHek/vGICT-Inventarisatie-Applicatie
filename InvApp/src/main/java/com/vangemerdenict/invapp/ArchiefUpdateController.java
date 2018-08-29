@@ -11,6 +11,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -20,6 +21,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
+import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
@@ -28,7 +30,7 @@ import javafx.scene.layout.AnchorPane;
  *
  * @author Frans
  */
-public class InlezenUpdateController implements Initializable {
+public class ArchiefUpdateController implements Initializable {
 
     @FXML
     private AnchorPane MainPane;
@@ -51,6 +53,12 @@ public class InlezenUpdateController implements Initializable {
     @FXML
     private TextField field_grVerloopt;
     @FXML
+    private TextField field_klant;
+    @FXML
+    private TextField field_verkoopprijs;
+    @FXML
+    private TextField field_verkoopDatum;
+    @FXML
     private Button btn_cancel;
     @FXML
     private Button btn_save;
@@ -65,7 +73,7 @@ public class InlezenUpdateController implements Initializable {
     private void saveFormClick(ActionEvent event) {
         saveform();
 
-        Parent pane = loadFXMLFile("/fxml/InlezenMain.fxml");
+        Parent pane = loadFXMLFile("/fxml/ArchiefMain.fxml");
         System.out.println("ACTION: Save Update Form.");
 
         MainPane.getChildren().clear();
@@ -75,7 +83,7 @@ public class InlezenUpdateController implements Initializable {
 
     @FXML
     private void cancelFormClick(ActionEvent event) {
-        Parent pane = loadFXMLFile("/fxml/InlezenMain.fxml");
+        Parent pane = loadFXMLFile("/fxml/ArchiefMain.fxml");
         System.out.println("ACTION: Cancel Update Form.");
 
         MainPane.getChildren().clear();
@@ -99,7 +107,7 @@ public class InlezenUpdateController implements Initializable {
         try {
             loadSelectedItem(selectedItem);
         } catch (SQLException ex) {
-            Logger.getLogger(InlezenUpdateController.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ArchiefUpdateController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -111,7 +119,7 @@ public class InlezenUpdateController implements Initializable {
         ResultSet rs = MainApp.db.executeResultSetQuery(query);
 
         while (rs.next()) {
-            inventoryList = new InventoryList("" + rs.getInt("id"), rs.getString("naam"), rs.getString("barcode"), rs.getString("type product"), rs.getString("merk"), rs.getString("ingekocht"), rs.getDouble("inkoopprijs"), rs.getString("garantie verloopt op"), rs.getString("specs"), rs.getString("opmerking"));
+            inventoryList = new InventoryList("" + rs.getInt("id"), rs.getString("naam"), rs.getString("barcode"), rs.getString("type product"), rs.getString("merk"), rs.getString("ingekocht"), rs.getDouble("inkoopprijs"), rs.getString("verkocht op"), rs.getDouble("verkoopprijs"), rs.getString("garantie verloopt op"), rs.getString("specs"), rs.getString("opmerking"), rs.getString("klant"));
         }
 
         fillTextFields(inventoryList);
@@ -127,10 +135,16 @@ public class InlezenUpdateController implements Initializable {
         field_grVerloopt.setText(inventoryList.getGrVerloopt());
         field_specs.setText(inventoryList.getSpecs());
         field_opmerking.setText(inventoryList.getOpmerking());
+        field_klant.setText(inventoryList.getKlant());
+        field_verkoopprijs.setText("" + inventoryList.getVerkoopprijsDouble());
+        field_verkoopDatum.setText(inventoryList.getVerkoopDatum());
     }
 
     private void saveform() {
 
+        String verkoopDatum = field_verkoopDatum.getText();
+        String verkoopprijs = field_verkoopprijs.getText();
+        String klant = field_klant.getText();
         String naam = field_naam.getText();
         String barcode = field_barcode.getText();
         String merk = field_merk.getText();
@@ -148,11 +162,14 @@ public class InlezenUpdateController implements Initializable {
                 + "`type product` = '%s',\n"
                 + "`merk` = '%s',\n"
                 + "`ingekocht` = '%s',\n"
+                + "`verkocht op` = '%s',\n"
                 + "`garantie verloopt op` = '%s',\n"
                 + "`specs` = '%s',\n"
                 + "`opmerking` = '%s',\n"
-                + "`inkoopprijs` = %s\n"
-                + "WHERE `id` = %s;", naam, barcode, type, merk, ingekocht, grVerloopt, specs, opmerking, inkoopprijs, selectedItem);
+                + "`klant` = '%s',\n"
+                + "`inkoopprijs` = %s,\n"
+                + "`verkoopprijs` = %s\n"
+                + "WHERE `id` = %s;", naam, barcode, type, merk, ingekocht, verkoopDatum, grVerloopt, specs, opmerking, klant, inkoopprijs, verkoopprijs, selectedItem);
 
         MainApp.db.executeUpdateQuery(query);
     }

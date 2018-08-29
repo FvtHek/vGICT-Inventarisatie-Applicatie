@@ -40,6 +40,8 @@ public class InlezenMainController implements Initializable {
     @FXML
     private TableColumn<InventoryList, String> col_id;
     @FXML
+    private TableColumn<InventoryList, String> col_naam;
+    @FXML
     private TableColumn<InventoryList, String> col_barcode;
     @FXML
     private TableColumn<InventoryList, String> col_type;
@@ -58,7 +60,6 @@ public class InlezenMainController implements Initializable {
 
     ObservableList<InventoryList> data = FXCollections.observableArrayList();
 
-    private String inkoopprijs;
     private String selectedItem;
 
     @Override
@@ -75,8 +76,7 @@ public class InlezenMainController implements Initializable {
             ResultSet rs = MainApp.db.executeResultSetQuery(query);
 
             while (rs.next()) {
-                data.add(new InventoryList("" + rs.getInt("id"), rs.getString("barcode"), rs.getString("type product"), rs.getString("merk"), rs.getString("ingekocht"), rs.getDouble("inkoopprijs"), rs.getString("garantie verloopt op"), rs.getString("specs"), rs.getString("opmerking")));
-                System.out.println(rs.getDouble("inkoopprijs"));
+                data.add(new InventoryList("" + rs.getInt("id"), rs.getString("naam"), rs.getString("barcode"), rs.getString("type product"), rs.getString("merk"), rs.getString("ingekocht"), rs.getDouble("inkoopprijs"), rs.getString("garantie verloopt op"), rs.getString("specs"), rs.getString("opmerking")));
             }
         } catch (SQLException ex) {
             Logger.getLogger(InlezenMainController.class.getName()).log(Level.SEVERE, null, ex);
@@ -94,12 +94,14 @@ public class InlezenMainController implements Initializable {
                 InventoryList il = table.getItems().get(table.getSelectionModel().getSelectedIndex());
                 selectedItem = il.getId();
                 System.out.println(selectedItem);
+                MainApp.setSelectedItem(selectedItem);
             }
         });
     }
 
     private void setCellTable() {
         col_id.setCellValueFactory(new PropertyValueFactory<>("id"));
+        col_naam.setCellValueFactory(new PropertyValueFactory<>("naam"));
         col_barcode.setCellValueFactory(new PropertyValueFactory<>("barcode"));
         col_type.setCellValueFactory(new PropertyValueFactory<>("type"));
         col_merk.setCellValueFactory(new PropertyValueFactory<>("merk"));
@@ -109,17 +111,7 @@ public class InlezenMainController implements Initializable {
         col_specs.setCellValueFactory(new PropertyValueFactory<>("specs"));
         col_opmerking.setCellValueFactory(new PropertyValueFactory<>("opmerking"));
     }
-    
-    @FXML
-    private void newFormClick(ActionEvent event) {
-        Parent pane = loadFXMLFile("/fxml/InlezenInsert.fxml");
-        System.out.println("ACTION: Loading Form.");
 
-        MainPane.getChildren().clear();
-
-        MainPane.getChildren().add(pane);
-    }
-    
     public Parent loadFXMLFile(String fxmlFileLocation) {
         try {
             return FXMLLoader.load(MainApp.class.getResource(fxmlFileLocation));
@@ -129,4 +121,49 @@ public class InlezenMainController implements Initializable {
         }
 
     }
+
+    @FXML
+    private void newFormClick(ActionEvent event) {
+        loadPage("InlezenInsert.fxml");
+        System.out.println("ACTION: Loading New Form.");
+    }
+    
+    @FXML
+    public void itemUpdateClick(ActionEvent event) {
+        loadPage("InlezenUpdate.fxml");
+        System.out.println("ACTION: Loading Inlezen Edit Form.");
+    }
+    
+    @FXML
+    public void menuButtonMenuClick(ActionEvent event) {
+        loadPage("MainMenu.fxml");
+        System.out.println("ACTION: Loading Main Menu.");
+    }
+
+    @FXML
+    public void menuButtonUitboekenClick(ActionEvent event) {
+        loadPage("UitboekenMain.fxml");
+        System.out.println("ACTION: Loading Uitboeken Page.");
+    }
+
+    @FXML
+    public void menuButtonArchiefClick(ActionEvent event) {
+        loadPage("ArchiefMain.fxml");
+        System.out.println("ACTION: Loading Archief Page.");
+    }
+
+    private void loadPage(String name) {
+        String fxmlFileLocation = String.format("/fxml/%s", name);
+
+        try {
+            Parent pane = loadFXMLFile(fxmlFileLocation);
+
+            MainPane.getChildren().clear();
+
+            MainPane.getChildren().add(pane);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+    }
+
 }

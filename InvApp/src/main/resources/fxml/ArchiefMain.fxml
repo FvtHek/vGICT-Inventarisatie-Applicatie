@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.control.Button?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.image.Image?>
@@ -7,6 +8,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
 
 <AnchorPane id="AnchorPane" fx:id="MainPane" minHeight="720.0" minWidth="1280.0" style="-fx-background-color: #fff;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.vangemerdenict.invapp.ArchiefMainController">
     <children>
@@ -16,14 +18,19 @@
                <children>
                   <TableView fx:id="table" layoutX="192.0" layoutY="100.0" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                     <columns>
-                      <TableColumn fx:id="col_id" minWidth="80.0" prefWidth="-1.0" text="ID" />
+                      <TableColumn fx:id="col_id" minWidth="60.0" prefWidth="-1.0" text="ID" />
+                      <TableColumn fx:id="col_naam" minWidth="200.0" prefWidth="-1.0" text="Naam" />
+                        <TableColumn fx:id="col_klant" minWidth="200.0" prefWidth="-1.0" text="Naam Klant" />
                       <TableColumn fx:id="col_barcode" minWidth="100.0" prefWidth="-1.0" text="Barcode" />
-                        <TableColumn fx:id="col_type" minWidth="100.0" prefWidth="-1.0" text="Type Product" />
-                        <TableColumn fx:id="col_merk" minWidth="100.0" prefWidth="-1.0" text="Merk" />
-                        <TableColumn fx:id="col_ingekocht" minWidth="130.0" prefWidth="-1.0" text="Ingekocht" />
-                        <TableColumn fx:id="col_grVerloopt" minWidth="130.0" prefWidth="-1.0" text="Garantie Verloopt op" />
-                        <TableColumn fx:id="col_specs" minWidth="225.0" prefWidth="-1.0" text="Specs" />
-                        <TableColumn fx:id="col_opmerking" minWidth="224.0" prefWidth="-1.0" text="Opmerking" />
+                      <TableColumn fx:id="col_type" minWidth="100.0" prefWidth="-1.0" text="Type Product" />
+                      <TableColumn fx:id="col_merk" minWidth="100.0" prefWidth="-1.0" text="Merk" />
+                      <TableColumn fx:id="col_ingekocht" minWidth="120.0" prefWidth="-1.0" text="Ingekocht" />
+                      <TableColumn fx:id="col_inkoopprijs" minWidth="100.0" prefWidth="-1.0" text="Inkoopprijs" />
+                        <TableColumn fx:id="col_verkoopprijs" minWidth="100.0" prefWidth="-1.0" text="Verkoopprijs" />
+                        <TableColumn fx:id="col_verkoopDatum" minWidth="100.0" prefWidth="-1.0" text="Verkoop Datum" />
+                      <TableColumn fx:id="col_grVerloopt" minWidth="130.0" prefWidth="-1.0" text="Garantie Verloopt op" />
+                      <TableColumn fx:id="col_specs" minWidth="200.0" prefWidth="-1.0" text="Specs" />
+                      <TableColumn fx:id="col_opmerking" minWidth="200.0" prefWidth="-1.0" text="Opmerking" />
                     </columns>
                   </TableView>
                </children>
@@ -37,13 +44,21 @@
                         <Image url="@../image/logo_tekst.png" />
                      </image>
                   </ImageView>
+                  <Button fx:id="btn_edit" layoutX="1174.0" layoutY="120.0" mnemonicParsing="false" text="Aanpassen" onAction="#itemUpdateClick" />
                </children></Pane>
          </top>
          <bottom>
             <AnchorPane id="footer" prefHeight="50.0" prefWidth="1280.0" style="-fx-background-color: #403e46;" BorderPane.alignment="CENTER" />
          </bottom>
          <left>
-            <Pane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
+            <VBox prefHeight="505.0" prefWidth="170.0" BorderPane.alignment="CENTER">
+               <children>
+                  <Button fx:id="btn_menu" mnemonicParsing="false" onAction="#menuButtonMenuClick" prefWidth="170.0" text="Menu" />
+                  <Button fx:id="btn_inboeken" layoutX="10.0" layoutY="42.0" mnemonicParsing="false" onAction="#menuButtonInlezenClick" prefWidth="170.0" text="Inboeken" />
+                  <Button fx:id="btn_uitboeken" mnemonicParsing="false" onAction="#menuButtonUitboekenfClick" prefWidth="170.0" text="Uitboeken" />
+                  <Button fx:id="btn_archief" disable="true" mnemonicParsing="false" prefWidth="170.0" text="Archief" />
+               </children>
+            </VBox>
          </left>
       </BorderPane>
     </children>

@@ -21,9 +21,6 @@ public class MainMenuController implements Initializable {
     @FXML
     private AnchorPane MainPane;
 
-    @FXML
-    private void handleButtonAction(ActionEvent event) {
-    }
 
     @FXML
     private void menuButtonInlezenClick(ActionEvent event) {

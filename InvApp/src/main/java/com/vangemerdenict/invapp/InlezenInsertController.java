@@ -12,19 +12,17 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.DatePicker;
-import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
-import Util.TypeList;
 import java.io.IOException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Date;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
+import javafx.scene.control.TextArea;
 
 /**
  *
@@ -39,6 +37,8 @@ public class InlezenInsertController implements Initializable {
     @FXML
     private TextField field_barcode;
     @FXML
+    private TextField field_naam;
+    @FXML
     private ChoiceBox<String> field_type;
     @FXML
     private Button btn_addType;
@@ -49,9 +49,9 @@ public class InlezenInsertController implements Initializable {
     @FXML
     private DatePicker field_grVerloopt;
     @FXML
-    private TextField field_specs;
+    private TextArea field_specs;
     @FXML
-    private TextField field_opmerking;
+    private TextArea field_opmerking;
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -93,6 +93,7 @@ public class InlezenInsertController implements Initializable {
     @FXML
     private void saveFormClick(ActionEvent event) {
 
+        String naam = field_naam.getText().toString();
         String barcode = field_barcode.getText().toString();
         String merk = field_merk.getText().toString();
         String type = field_type.getSelectionModel().getSelectedItem().toString();
@@ -112,8 +113,8 @@ public class InlezenInsertController implements Initializable {
 
         System.out.println("ACTION: Saving New Item");
 
-        String query = String.format("INSERT INTO `mydb`.`product`(`barcode`,`type product`,`merk`,`ingekocht`,`inkoopprijs`,`garantie verloopt op`,`specs`,`verkocht`,`opmerking`)VALUES "
-                + "('%s','%s','%s','%s',%s,'%s','%s',%d,'%s');", barcode, type, merk, ingekocht, inkoopprijs, grVerloopt, specs, verkocht, opmerking);
+        String query = String.format("INSERT INTO `mydb`.`product`(`naam`,`barcode`,`type product`,`merk`,`ingekocht`,`inkoopprijs`,`garantie verloopt op`,`specs`,`verkocht`,`opmerking`)VALUES "
+                + "('%s','%s','%s','%s','%s',%s,'%s','%s',%d,'%s');", naam, barcode, type, merk, ingekocht, inkoopprijs, grVerloopt, specs, verkocht, opmerking);
 
         System.out.println(query);
 

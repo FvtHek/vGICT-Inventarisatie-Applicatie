@@ -11,6 +11,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -20,6 +21,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
+import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
@@ -28,8 +30,8 @@ import javafx.scene.layout.AnchorPane;
  *
  * @author Frans
  */
-public class InlezenUpdateController implements Initializable {
-
+public class UitboekenUpdateController implements Initializable {
+    
     @FXML
     private AnchorPane MainPane;
     @FXML
@@ -51,38 +53,44 @@ public class InlezenUpdateController implements Initializable {
     @FXML
     private TextField field_grVerloopt;
     @FXML
+    private TextField field_klant;
+    @FXML
+    private TextField field_verkoopprijs;
+    @FXML
+    private DatePicker field_verkoopDatum;
+    @FXML
     private Button btn_cancel;
     @FXML
     private Button btn_save;
-
+    
     private String selectedItem = MainApp.getSelectedItem();
-
+    
     InventoryList inventoryList;
-
+    
     private int verkocht = 1;
-
+    
     @FXML
     private void saveFormClick(ActionEvent event) {
         saveform();
 
-        Parent pane = loadFXMLFile("/fxml/InlezenMain.fxml");
+        Parent pane = loadFXMLFile("/fxml/UitboekenMain.fxml");
         System.out.println("ACTION: Save Update Form.");
 
         MainPane.getChildren().clear();
 
         MainPane.getChildren().add(pane);
     }
-
+    
     @FXML
     private void cancelFormClick(ActionEvent event) {
-        Parent pane = loadFXMLFile("/fxml/InlezenMain.fxml");
+        Parent pane = loadFXMLFile("/fxml/UitboekenMain.fxml");
         System.out.println("ACTION: Cancel Update Form.");
-
+        
         MainPane.getChildren().clear();
-
+        
         MainPane.getChildren().add(pane);
     }
-
+    
     public Parent loadFXMLFile(String fxmlFileLocation) {
         try {
             return FXMLLoader.load(MainApp.class.getResource(fxmlFileLocation));
@@ -90,71 +98,70 @@ public class InlezenUpdateController implements Initializable {
             ex.printStackTrace();
             return null;
         }
-
+        
     }
-
+    
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         System.out.println(selectedItem);
         try {
             loadSelectedItem(selectedItem);
         } catch (SQLException ex) {
-            Logger.getLogger(InlezenUpdateController.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(UitboekenUpdateController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-
+    
     private void loadSelectedItem(String selectedItem) throws SQLException {
-        String query = String.format("SELECT *\n"
+        String query = String.format("SELECT `product`.`id`,\n"
+                + "    `product`.`naam`,\n"
+                + "    `product`.`barcode`,\n"
+                + "    `product`.`type product`,\n"
+                + "    `product`.`merk`,\n"
+                + "    `product`.`ingekocht`,\n"
+                + "    `product`.`garantie verloopt op`,\n"
+                + "    `product`.`specs`,\n"
+                + "    `product`.`verkocht`,\n"
+                + "    `product`.`opmerking`,\n"
+                + "    `product`.`inkoopprijs`\n"
                 + "FROM `mydb`.`product`\n"
                 + "WHERE `id` = %s;", selectedItem);
-
+        
         ResultSet rs = MainApp.db.executeResultSetQuery(query);
-
+        
         while (rs.next()) {
             inventoryList = new InventoryList("" + rs.getInt("id"), rs.getString("naam"), rs.getString("barcode"), rs.getString("type product"), rs.getString("merk"), rs.getString("ingekocht"), rs.getDouble("inkoopprijs"), rs.getString("garantie verloopt op"), rs.getString("specs"), rs.getString("opmerking"));
         }
-
+        
         fillTextFields(inventoryList);
     }
-
+    
     private void fillTextFields(InventoryList inventoryList) {
         field_naam.setText(inventoryList.getNaam());
         field_barcode.setText(inventoryList.getBarcode());
         field_type.setText(inventoryList.getType());
         field_merk.setText(inventoryList.getMerk());
         field_ingekocht.setText(inventoryList.getIngekocht());
-        field_inkoopprijs.setText("" + inventoryList.getInkoopprijsDouble());
+        field_inkoopprijs.setText(inventoryList.getInkoopprijs());
         field_grVerloopt.setText(inventoryList.getGrVerloopt());
         field_specs.setText(inventoryList.getSpecs());
         field_opmerking.setText(inventoryList.getOpmerking());
     }
-
+    
     private void saveform() {
-
-        String naam = field_naam.getText();
-        String barcode = field_barcode.getText();
-        String merk = field_merk.getText();
-        String type = field_type.getText();
-        String ingekocht = field_ingekocht.getText();
-        String inkoopprijs = field_inkoopprijs.getText();
-        String grVerloopt = field_grVerloopt.getText();
-        String opmerking = field_opmerking.getText();
-        String specs = field_specs.getText();
-
+        
+        LocalDate verkoopDatum = field_verkoopDatum.getValue();
+        String verkoopprijs = field_verkoopprijs.getText();
+        String klant = field_klant.getText();
+        
         String query = String.format("UPDATE `mydb`.`product`\n"
                 + "SET\n"
-                + "`naam` = '%s',\n"
-                + "`barcode` = '%s',\n"
-                + "`type product` = '%s',\n"
-                + "`merk` = '%s',\n"
-                + "`ingekocht` = '%s',\n"
-                + "`garantie verloopt op` = '%s',\n"
-                + "`specs` = '%s',\n"
-                + "`opmerking` = '%s',\n"
-                + "`inkoopprijs` = %s\n"
-                + "WHERE `id` = %s;", naam, barcode, type, merk, ingekocht, grVerloopt, specs, opmerking, inkoopprijs, selectedItem);
-
+                + "`verkocht op` = '%s',\n"
+                + "`verkocht` = %d,\n"
+                + "`klant` = '%s',\n"
+                + "`verkoopprijs` = %s\n"
+                + "WHERE `id` = %s;", verkoopDatum, verkocht, klant, verkoopprijs, selectedItem);
+        
         MainApp.db.executeUpdateQuery(query);
     }
-
+    
 }

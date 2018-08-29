@@ -10,6 +10,9 @@ import javafx.stage.Stage;
 
 public class MainApp extends Application {
 
+    private static String selectedItem;
+    public static MyJDBC db;
+
     @Override
     public void start(Stage stage) throws Exception {
         initMyApp();
@@ -24,8 +27,6 @@ public class MainApp extends Application {
         stage.show();
     }
 
-    public static MyJDBC db;
-
     private void initMyApp() {
         db = new MyJDBC();
 
@@ -39,5 +40,19 @@ public class MainApp extends Application {
     @Override
     public void stop() {
         db.close();
+    }
+
+    /**
+     * @return the selectedItem
+     */
+    public static String getSelectedItem() {
+        return selectedItem;
+    }
+
+    /**
+     * @param aSelectedItem the selectedItem to set
+     */
+    public static void setSelectedItem(String aSelectedItem) {
+        selectedItem = aSelectedItem;
     }
 }
