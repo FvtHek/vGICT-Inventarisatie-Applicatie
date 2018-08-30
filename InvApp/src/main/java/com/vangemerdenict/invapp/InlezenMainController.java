@@ -62,6 +62,8 @@ public class InlezenMainController implements Initializable {
 
     private String selectedItem;
 
+    public String currentScene = "InlezenMain.fxml";
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         loadDataFromDatabase();
@@ -69,7 +71,7 @@ public class InlezenMainController implements Initializable {
 
     }
 
-    private void loadDataFromDatabase() {
+    public void loadDataFromDatabase() {
         String query = String.format("select * from product where verkocht = '0';");
 
         try {
@@ -112,28 +114,23 @@ public class InlezenMainController implements Initializable {
         col_opmerking.setCellValueFactory(new PropertyValueFactory<>("opmerking"));
     }
 
-    public Parent loadFXMLFile(String fxmlFileLocation) {
-        try {
-            return FXMLLoader.load(MainApp.class.getResource(fxmlFileLocation));
-        } catch (IOException ex) {
-            ex.printStackTrace();
-            return null;
-        }
-
-    }
-
     @FXML
     private void newFormClick(ActionEvent event) {
         loadPage("InlezenInsert.fxml");
         System.out.println("ACTION: Loading New Form.");
     }
-    
+
     @FXML
     public void itemUpdateClick(ActionEvent event) {
         loadPage("InlezenUpdate.fxml");
         System.out.println("ACTION: Loading Inlezen Edit Form.");
     }
-    
+
+    @FXML
+    public void itemDeleteClick(ActionEvent event) {
+        AlertBox.display("Waarschuwing", "Weet u zeker dat u dit item wilt verwijderen?");
+    }
+
     @FXML
     public void menuButtonMenuClick(ActionEvent event) {
         loadPage("MainMenu.fxml");
@@ -152,6 +149,16 @@ public class InlezenMainController implements Initializable {
         System.out.println("ACTION: Loading Archief Page.");
     }
 
+    public Parent loadFXMLFile(String fxmlFileLocation) {
+        try {
+            return FXMLLoader.load(MainApp.class.getResource(fxmlFileLocation));
+        } catch (IOException ex) {
+            ex.printStackTrace();
+            return null;
+        }
+
+    }
+
     private void loadPage(String name) {
         String fxmlFileLocation = String.format("/fxml/%s", name);
 
@@ -164,6 +171,10 @@ public class InlezenMainController implements Initializable {
         } catch (Exception ex) {
             ex.printStackTrace();
         }
+    }
+
+    public String getCurrentScene() {
+        return currentScene;
     }
 
 }

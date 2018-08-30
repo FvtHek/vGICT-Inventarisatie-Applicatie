@@ -85,18 +85,18 @@ public class InlezenInsertController implements Initializable {
     public void fillTypeList(ChoiceBox field) {
         ArrayList<String> typeList = typeList();
 
-        for (int i = 0; i < typeList.size(); i++) {
-            field.getItems().addAll(typeList.get(i));
+        for (String typeList1 : typeList) {
+            field.getItems().addAll(typeList1);
         }
     }
 
     @FXML
     private void saveFormClick(ActionEvent event) {
 
-        String naam = field_naam.getText().toString();
-        String barcode = field_barcode.getText().toString();
-        String merk = field_merk.getText().toString();
-        String type = field_type.getSelectionModel().getSelectedItem().toString();
+        String naam = field_naam.getText();
+        String barcode = field_barcode.getText();
+        String merk = field_merk.getText();
+        String type = field_type.getSelectionModel().getSelectedItem();
         LocalDate ingekocht = field_ingekocht.getValue();
         String inkoopprijs = field_inkoopprijs.getText();
         LocalDate grVerloopt = field_grVerloopt.getValue();

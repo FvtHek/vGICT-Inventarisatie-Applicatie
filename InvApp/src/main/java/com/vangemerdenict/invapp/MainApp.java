@@ -3,6 +3,7 @@ package com.vangemerdenict.invapp;
 import db.MyJDBC;
 import javafx.application.Application;
 import static javafx.application.Application.launch;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -54,5 +55,12 @@ public class MainApp extends Application {
      */
     public static void setSelectedItem(String aSelectedItem) {
         selectedItem = aSelectedItem;
+    }
+    
+    public static void deleteSelectedItem() {
+        String query = String.format("DELETE FROM `mydb`.`product`\n"
+                + "WHERE `id` = %s;", selectedItem);
+        
+        MainApp.db.executeUpdateQuery(query);
     }
 }

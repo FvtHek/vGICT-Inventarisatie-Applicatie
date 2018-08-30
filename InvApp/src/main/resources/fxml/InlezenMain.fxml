@@ -42,7 +42,8 @@
                      </image>
                   </ImageView>
                   <Button fx:id="btn_new" layoutX="1200.0" layoutY="120.0" mnemonicParsing="false" onAction="#newFormClick" text="Nieuw" />
-                  <Button fx:id="btn_edit" layoutX="1100.0" layoutY="120.0" mnemonicParsing="false" text="Aanpassen" onAction="#itemUpdateClick" />
+                  <Button fx:id="btn_edit" layoutX="1100.0" layoutY="120.0" mnemonicParsing="false" onAction="#itemUpdateClick" text="Aanpassen" />
+                  <Button fx:id="btn_remove" layoutX="990.0" layoutY="120.0" mnemonicParsing="false" onAction="#itemDeleteClick" text="Verwijderen" />
                </children></Pane>
          </top>
          <bottom>
